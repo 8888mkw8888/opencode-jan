@@ -2,19 +2,15 @@
 
 OpenCode plugin for Jan Local API Server with auto-detection, API-key-aware setup, and dynamic model discovery.
 
-## Features
+## Quick Start (Easiest Setup)
 
-- Auto-detection of Jan API Server endpoints (default `127.0.0.1:1337`)
-- Auto-setup of `provider.jan` when Jan is detected
-- API key detection from config or environment (`JAN_API_KEY`, `JAN_API_SERVER_KEY`, `OPENCODE_JAN_API_KEY`, `OPENAI_API_KEY`)
-- Dynamic model discovery from `GET /v1/models`
-- Smart model formatting and owner extraction
-- Model merging into existing OpenCode config
-- Runtime model validation in `chat.params`
-- Cache-backed model checks for lower API overhead
-- Actionable error handling for offline/unauthorized/missing model cases
+This is the simplest flow, equivalent to the original plugin experience:
 
-## Installation
+1. Install plugin.
+2. Start Jan Local API Server.
+3. Add plugin in `opencode.json`.
+
+### 1) Install
 
 ```bash
 npm install opencode-jan
@@ -22,15 +18,42 @@ npm install opencode-jan
 bun add opencode-jan
 ```
 
-## Usage
+### 2) Start Jan Local API Server
 
-Set your Jan API key in your shell:
+In Jan Desktop:
+
+- Go to `Settings` > `Local API Server`
+- Set an API key
+- Click `Start Server`
+
+Default endpoint is usually:
+
+- `http://127.0.0.1:1337/v1`
+
+### 3) Set API key once in shell
 
 ```bash
 export JAN_API_KEY="your-jan-local-api-key"
 ```
 
-Add the plugin to your `opencode.json`:
+### 4) Add plugin to `opencode.json`
+
+Minimal config (recommended):
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": [
+    "opencode-jan@latest"
+  ]
+}
+```
+
+That is enough in most cases. The plugin auto-detects Jan, creates `provider.jan`, and auto-discovers models.
+
+## Manual Provider Config (Optional)
+
+Use this only if you want explicit control:
 
 ```json
 {
@@ -51,7 +74,7 @@ Add the plugin to your `opencode.json`:
 }
 ```
 
-## Auto Setup Behavior
+## What Happens Automatically
 
 If `provider.jan` is missing, the plugin attempts to detect Jan automatically and creates it for you.
 
@@ -62,6 +85,14 @@ Detection checks:
 - OpenAI-compatible model endpoint health via `/v1/models`
 
 If Jan is reachable but unauthorized, the plugin keeps configuration safe and prompts you to set a valid API key.
+
+## Quick Verify
+
+You can verify Jan server access directly:
+
+```bash
+curl http://127.0.0.1:1337/v1/models -H "Authorization: Bearer $JAN_API_KEY"
+```
 
 ## Requirements
 
