@@ -12,7 +12,8 @@
 1. Confirm Jan server is running:
 
 ```bash
-curl http://127.0.0.1:1337/v1/models -H "Authorization: Bearer $JAN_API_KEY"
+export JAN_API_KEY='hOpZaFFfLeoR'
+curl http://127.0.0.1:1337/v1/models -H "Authorization: Bearer hOpZaFFfLeoR"
 ```
 
 2. Confirm plugin in OpenCode config:
@@ -28,7 +29,7 @@ curl http://127.0.0.1:1337/v1/models -H "Authorization: Bearer $JAN_API_KEY"
   "jan": {
     "options": {
       "baseURL": "http://127.0.0.1:1337/v1",
-      "apiKey": "${JAN_API_KEY}"
+      "apiKey": "hOpZaFFfLeoR"
     }
   }
 }
